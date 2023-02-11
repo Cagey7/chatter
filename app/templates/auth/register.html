@@ -1,9 +1,24 @@
 {% extends "base.html" %}
 
 {% block title %}
-    <title>Registraion</title>
+    <title>Регистрация</title>
 {% endblock %}
 
 {% block content %}
-    <p>Registraion</p>
+    <p>Регистрация</p>
+    <form action="/register", method="post">
+        {{ form.hidden_tag() }}
+        <div>
+            {{ form.email(placeholder="Электронная почта")}}
+        </div>
+        <div>
+            {{ form.password(placeholder="Пароль")}}            
+        </div>
+        <div>
+            {{ form.password(placeholder="Подтвердите пароль")}}            
+        </div>
+        <div>
+            {{ form.submit(type="submit") }}
+        </div>
+    </form>
 {% endblock %}

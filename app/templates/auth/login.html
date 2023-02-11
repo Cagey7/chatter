@@ -1,9 +1,21 @@
 {% extends "base.html" %}
 
 {% block title %}
-    <title>Login</title>
+    <title>Логин</title>
 {% endblock %}
 
 {% block content %}
-    <p>Login</p>
+    <p>Логин</p>
+    <form action="/login", method="post">
+        {{ form.hidden_tag() }}
+        <div>
+            {{ form.email(placeholder="Электронная почта")}}
+        </div>
+        <div>
+            {{ form.password(placeholder="Пароль")}}            
+        </div>
+        <div>
+            {{ form.submit(type="submit") }}
+        </div>
+    </form>
 {% endblock %}
