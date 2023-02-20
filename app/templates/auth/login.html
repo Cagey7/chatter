@@ -5,25 +5,26 @@
 {% endblock %}
 
 {% block content %}
-    <p>Логин</p>
-    <form action="", method="post">
-        {{ form.hidden_tag() }}
-        <div>
-            {{ form.email(placeholder="Электронная почта")}}
-            <div style="color: red;">{% if form.email.errors %}{{ form.email.errors[0] }}{% endif %}</div>
-        </div>
-        <div>
-            {{ form.password(placeholder="Пароль")}}
-            <div style="color: red;">{% if form.password.errors %}{{ form.password.errors[0] }}{% endif %}</div>            
-        </div>
-        <div>
-            {{ form.remember_me() }} Запомнить меня
-        </div>
-        <div>
-            {{ form.submit(type="submit") }}
-        </div>
-        {% for message in get_flashed_messages() %}
-            <div style="color: red;">{{ message }}</div>
-        {% endfor %} 
-    </form>
+    <div class="container">
+		<div class="row">
+			<div class="col-md-6 mx-auto">
+                <form class="form-signin" method="post">
+                    {{ form.hidden_tag() }}
+                    <h1 class="h3 mb-3 font-weight-normal text-center">Вход</h1>
+                    {{ form.email.label(class="sr-only")}}
+                    {{ form.email(class="form-control", placeholder="Электронная почта")}}
+                    {{ form.password.label(class="sr-only")}}
+                    {{ form.password(class="form-control", placeholder="Пароль")}}
+                    {{ form.remember_me() }} Запомнить меня
+                    {% for field in [form.email, form.password] %}
+                        <div class="error-message">{% if field.errors %}{{ field.errors[0] }}{% endif %}</div>
+                    {% endfor %}
+                    {% for message in get_flashed_messages() %}
+                        <div class="error-message">{{ message }}</div>
+                    {% endfor %}
+                    {{ form.submit(class="btn btn-lg btn-primary btn-block mt-4", type="submit")}}
+                </form>
+			</div>
+		</div>
+	</div>
 {% endblock %}

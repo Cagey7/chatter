@@ -5,26 +5,27 @@
 {% endblock %}
 
 {% block content %}
-    <p>Регистрация</p>
-    <form action="", method="post">
-        {{ form.hidden_tag() }}
-        <div>
-            {{ form.email(placeholder="Электронная почта")}}
-        </div>
-        <div>
-            {{ form.password(placeholder="Пароль")}}   
-        </div>
-        <div>
-            {{ form.confirm_password(placeholder="Подтвердите пароль")}}            
-        </div>
-        <div>
-            {{ form.submit(type="submit") }}
-        </div>
-        <div style="color: red;">{% if form.email.errors %}{{ form.email.errors[0] }}{% endif %}</div>
-        <div style="color: red;">{% if form.password.errors %}{{ form.password.errors[0] }}{% endif %}</div>
-        <div style="color: red;">{% if form.confirm_password.errors %}{{ form.confirm_password.errors[0] }}{% endif %}</div>
-        {% for message in get_flashed_messages() %}
-            <div style="color: red;">{{ message }}</div>
-        {% endfor %}
-    </form>
+    <div class="container">
+		<div class="row">
+			<div class="col-md-6 mx-auto">
+				<form class="form-signin" method="post">
+                    {{ form.hidden_tag() }}
+					<h1 class="h3 mb-3 font-weight-normal text-center">Регистрация</h>
+                    {{ form.email.label(class="sr-only")}}
+                    {{ form.email(class="form-control", placeholder="Электронная почта")}}
+                    {{ form.password.label(class="sr-only")}}
+                    {{ form.password(class="form-control", placeholder="Пароль")}}
+                    {{ form.confirm_password.label(class="sr-only")}}
+                    {{ form.confirm_password(class="form-control", placeholder="Подтвердите пароль")}}
+                    {% for field in [form.email, form.password, form.confirm_password] %}
+                        <div class="error-message">{% if field.errors %}{{ field.errors[0] }}{% endif %}</div>
+                    {% endfor %}
+                    {% for message in get_flashed_messages() %}
+                        <div class="error-message">{{ message }}</div>
+                    {% endfor %}
+                    {{ form.submit(class="btn btn-lg btn-primary btn-block mt-4", type="submit")}}
+				</form>
+			</div>
+		</div>
+	</div>
 {% endblock %}
