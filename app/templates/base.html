@@ -11,13 +11,23 @@
     </head>
 
     <body>
+        {% if current_user.is_authenticated %}
         <nav class="navbar navbar-expand-sm navbar-white bg-info">
             <div class="navbar-nav">
-                <a class="nav-item nav-link" href="#">Chatter</a>
-                <a class="nav-item nav-link" href="#">Логин</a>
-                <a class="nav-item nav-link" href="#">Регистрация</a>
+                <a class="nav-item nav-link" href="{{ url_for('main.index') }}">Chatter</a>
+                <a class="nav-item nav-link" href="{{ url_for('main.profile') }}">Профиль</a>
+                <a class="nav-item nav-link" href="{{ url_for('auth.logout') }}">Выйти</a>
             </div>
         </nav>
+        {% else %}
+        <nav class="navbar navbar-expand-sm navbar-white bg-info">
+            <div class="navbar-nav">
+                <a class="nav-item nav-link" href="{{ url_for('main.index') }}">Chatter</a>
+                <a class="nav-item nav-link" href="{{ url_for('auth.login') }}">Логин</a>
+                <a class="nav-item nav-link" href="{{ url_for('auth.register') }}">Регистрация</a>
+            </div>
+        </nav>
+        {% endif %}
         {% block content %}{% endblock %}
     </body>
 </html>

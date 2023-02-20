@@ -6,16 +6,24 @@
 
 {% block content %}
     <p>Логин</p>
-    <form action="/login", method="post">
+    <form action="", method="post">
         {{ form.hidden_tag() }}
         <div>
             {{ form.email(placeholder="Электронная почта")}}
+            <div style="color: red;">{% if form.email.errors %}{{ form.email.errors[0] }}{% endif %}</div>
         </div>
         <div>
-            {{ form.password(placeholder="Пароль")}}            
+            {{ form.password(placeholder="Пароль")}}
+            <div style="color: red;">{% if form.password.errors %}{{ form.password.errors[0] }}{% endif %}</div>            
+        </div>
+        <div>
+            {{ form.remember_me() }} Запомнить меня
         </div>
         <div>
             {{ form.submit(type="submit") }}
         </div>
+        {% for message in get_flashed_messages() %}
+            <div style="color: red;">{{ message }}</div>
+        {% endfor %} 
     </form>
 {% endblock %}

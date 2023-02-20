@@ -6,19 +6,25 @@
 
 {% block content %}
     <p>Регистрация</p>
-    <form action="/register", method="post">
+    <form action="", method="post">
         {{ form.hidden_tag() }}
         <div>
             {{ form.email(placeholder="Электронная почта")}}
         </div>
         <div>
-            {{ form.password(placeholder="Пароль")}}            
+            {{ form.password(placeholder="Пароль")}}   
         </div>
         <div>
-            {{ form.password(placeholder="Подтвердите пароль")}}            
+            {{ form.confirm_password(placeholder="Подтвердите пароль")}}            
         </div>
         <div>
             {{ form.submit(type="submit") }}
         </div>
+        <div style="color: red;">{% if form.email.errors %}{{ form.email.errors[0] }}{% endif %}</div>
+        <div style="color: red;">{% if form.password.errors %}{{ form.password.errors[0] }}{% endif %}</div>
+        <div style="color: red;">{% if form.confirm_password.errors %}{{ form.confirm_password.errors[0] }}{% endif %}</div>
+        {% for message in get_flashed_messages() %}
+            <div style="color: red;">{{ message }}</div>
+        {% endfor %}
     </form>
 {% endblock %}
