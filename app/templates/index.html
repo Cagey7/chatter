@@ -5,5 +5,10 @@
 {% endblock %}
 
 {% block content %}
-    <p>Main page</p>
+    <form class="custom-form">
+        <label for="html-input">Введите сообщение для отправки</label>
+        <textarea id="html-input" name="html-input"></textarea>
+        <br>
+        <input type="submit" value="Отправить">
+    </form>
 {% endblock %}

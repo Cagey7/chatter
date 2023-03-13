@@ -34,5 +34,86 @@ body {
     font-size: 18px;
     color: red;
     text-align: left;
+}
+
+
+/* Styles for form with message input */
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #F2F2F2;
+    padding-top: 70px;
+}
+
+.custom-form {
+    max-width: 330px;
+    padding: 15px;
+    margin: 0 auto;
+}
+
+.custom-form .form-control {
+    position: relative;
+    box-sizing: border-box;
+    height: auto;
+    padding: 10px;
+    font-size: 16px;
+}
+
+.custom-form .form-control:focus {
+    z-index: 2;
+}
+
+.custom-form input[type="email"] {
+    margin-bottom: -1px;
+    border-bottom-right-radius: 0;
+    border-bottom-left-radius: 0;
+}
+
+.custom-form input[type="password"] {
+    margin-bottom: 10px;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+}
+
+.custom-form .navbar-brand {
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.custom-form .error-message {
+    font-size: 18px;
+    color: red;
+    text-align: left;
+}
+
+.custom-form label {
+    font-size: 18px;
+    display: block;
+    margin-bottom: 10px;
+}
+
+.custom-form textarea {
+    font-family: monospace;
+    font-size: 16px;
+    border: 1px solid #CCCCCC;
+    padding: 10px;
+    width: 100%;
+    height: 200px;
+    resize: vertical;
+    border-radius: 5px;
+}
+
+  .custom-form input[type=submit] {
+    background-color: #4CAF50;
+    color: #FFFFFF;
+    border: none;
+    padding: 10px 20px;
+    font-size: 18px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
   }
-  
+
+  .custom-form input[type=submit]:hover {
+    background-color: #3E8E41;
+  }

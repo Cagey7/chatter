@@ -30,6 +30,7 @@ class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String(64), unique=True, nullable=False)
     password_hash = db.Column(db.String(128), nullable=False)
+    online = db.Column(db.Boolean, default=False)
 
 
     @property
@@ -45,6 +46,19 @@ class User(db.Model, UserMixin):
     def verify_password(self, password):
         """Compare inputted password with password in database"""
         return check_password_hash(self.password_hash, password)
+
+
+class WaitingUsers(db.Model):
+    """Sqlalchemy waiting user class"""
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer)
+
+
+
+class WaitingMessages(db.Model):
+    """Sqlalchemy waiting message class"""
+    id = db.Column(db.Integer, primary_key=True)
+    message_id = db.Column(db.Integer)
 
 
 @login_manager.user_loader
