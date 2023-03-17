@@ -5,10 +5,11 @@
 {% endblock %}
 
 {% block content %}
-    <form class="custom-form">
-        <label for="html-input">Введите сообщение для отправки</label>
-        <textarea id="html-input" name="html-input"></textarea>
+    <form action="\" method="post" class="custom-form">
+        {{ form.hidden_tag() }}
+        {{ form.msg_text.label(for="message-input")}}
+        {{ form.msg_text(id="message-input")}}
         <br>
-        <input type="submit" value="Отправить">
+        {{ form.submit(type="submit", value="Отправить")}}
     </form>
 {% endblock %}

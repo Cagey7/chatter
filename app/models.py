@@ -10,7 +10,7 @@ class Message(db.Model):
     time = db.Column(db.DateTime())
     text = db.Column(db.Text())
     sender_id = db.Column(db.Integer)
-    reciever_id = db.Column(db.Integer)
+    receiver_id = db.Column(db.Integer)
     chat_id = db.Column(db.Integer, db.ForeignKey("chats.id"))
 
 
@@ -20,7 +20,6 @@ class Chat(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     user_one_id = db.Column(db.Integer)
     user_two_id = db.Column(db.Integer)
-    chat_reciever_id = db.Column(db.Integer)
     messages = db.relationship("Message", backref="chat")
 
 
@@ -48,15 +47,17 @@ class User(db.Model, UserMixin):
         return check_password_hash(self.password_hash, password)
 
 
-class WaitingUsers(db.Model):
+class WaitingUser(db.Model):
     """Sqlalchemy waiting user class"""
+    __tablename__ = "waiting_users"
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer)
 
 
 
-class WaitingMessages(db.Model):
+class WaitingMessage(db.Model):
     """Sqlalchemy waiting message class"""
+    __tablename__ = "waiting_messages"
     id = db.Column(db.Integer, primary_key=True)
     message_id = db.Column(db.Integer)
 
