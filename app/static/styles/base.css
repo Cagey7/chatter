@@ -117,3 +117,14 @@ body {
   .custom-form input[type=submit]:hover {
     background-color: #3E8E41;
   }
+
+  .card {
+    width: 600px;
+    height: auto;
+  }
+  .bg-lightorange {
+    background-color: #FFB347; /* светлооранжевый */
+  }
+  .rounded-3 {
+    border-radius: 0.3rem; /* закругленные углы */
+  }

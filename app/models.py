@@ -18,8 +18,8 @@ class Chat(db.Model):
     """Sqlalchemy chat class"""
     __tablename__ = "chats"
     id = db.Column(db.Integer, primary_key=True)
-    user_one_id = db.Column(db.Integer)
-    user_two_id = db.Column(db.Integer)
+    user_one_id = db.Column(db.Integer) #sender
+    user_two_id = db.Column(db.Integer) #receiver
     messages = db.relationship("Message", backref="chat")
 
 

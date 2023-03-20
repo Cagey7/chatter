@@ -5,11 +5,27 @@
 {% endblock %}
 
 {% block content %}
-    <form action="\" method="post" class="custom-form">
-        {{ form.hidden_tag() }}
-        {{ form.msg_text.label(for="message-input")}}
-        {{ form.msg_text(id="message-input")}}
-        <br>
-        {{ form.submit(type="submit", value="Отправить")}}
-    </form>
+    {% if msg %}
+        <h1>{{ msg }}</h1>
+    {% elif current_user.id %}
+        <form action="\" method="post" class="custom-form">
+            {{ form.hidden_tag() }}
+            {{ form.msg_text.label(for="message-input")}}
+            {{ form.msg_text(id="message-input")}}
+            <br>
+            {{ form.submit(type="submit", value="Отправить")}}
+        </form>
+    {% else %}
+        <h1>Зарегистрируйтесь или войдите в аккаунт, чтобы пользоваться сайтом</h1>
+    {% endif %}
+    <!--
+    <div class="container">
+        <div class="card bg-lightorange rounded-3">
+            <div class="card-body">
+                <p class="card-text">Текст вашего блока здесь..Текст вашего блока зде.</p>
+            </div>
+        </div>
+    </div>
+    -->
+    
 {% endblock %}
