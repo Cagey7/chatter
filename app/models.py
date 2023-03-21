@@ -12,6 +12,7 @@ class Message(db.Model):
     sender_id = db.Column(db.Integer)
     receiver_id = db.Column(db.Integer)
     chat_id = db.Column(db.Integer, db.ForeignKey("chats.id"))
+    seen = db.Column(db.Boolean, default=False)
 
 
 class Chat(db.Model):

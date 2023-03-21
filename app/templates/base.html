@@ -6,6 +6,23 @@
                                 integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
         <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/base.css') }}">
         <link rel="icon" href="/static/favicon.ico">
+        <script>
+            const eventSource = new EventSource("/listen");
+            eventSource.onmessage = (event) => {
+                const data = JSON.parse(event.data);
+                let amount_of_chats = data.len_chats;
+
+                const notify_form = document.querySelector("#notify_form");
+                const notify_btn = document.querySelector("#notify_btn");
+                const notify_li = document.querySelector("#notify_li");
+                if (amount_of_chats > 0) {
+                    notify_li.removeAttribute("style");
+                    notify_btn.setAttribute("style", "background-color: red; width: 30px; height: 30px; border-radius: 5px; font-size: 16px;");
+                    notify_form.setAttribute("action", "{{ url_for('main.between_chat')}}");
+                    notify_btn.innerHTML = amount_of_chats;
+                }
+            }
+        </script>
         {% block title %}
         <title>Chatter</title>
         {% endblock %}
@@ -26,6 +43,11 @@
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="{{ url_for('main.profile') }}">Профиль</a>
+                        </li>
+                        <li id="notify_li" class="nav-item" style="display: none;">
+                            <form id="notify_form">
+                                <button id="notify_btn"></button>
+                            </form>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="{{ url_for('auth.logout') }}">Выйти</a>

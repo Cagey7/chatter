@@ -1,8 +1,9 @@
-from flask import render_template, redirect, url_for, session
+from flask import render_template, redirect, url_for, json, Response, stream_with_context
 from flask_login import login_required, current_user
 from . import main
 from .forms import *
 from datetime import datetime
+import time
 
 
 @main.route("/", methods=["GET", "POST"])
@@ -60,6 +61,7 @@ def index():
             # change data of sended message
             received_message.receiver_id = current_user.id
             received_message.chat_id = chat.id
+            received_message.seen = True
             db.session.commit()
 
             # delete waiting message
@@ -75,12 +77,38 @@ def index():
     return render_template("index.html", form=form)
 
 
-@main.route("/chat/<chat_id>", methods=["GET", "POST"])
+@main.route("/between_chat", methods=["GET", "POST"])
+@login_required
+def between_chat():
+    chat_id = Message.query.filter_by(seen=False, receiver_id=current_user.id). \
+                                        order_by(Message.time).first().chat_id
+    message = Message.query.filter_by(seen=False, chat_id=chat_id).first()
+    message.seen = True
+    db.session.commit()
+    return redirect(url_for("main.chat", chat_id=chat_id))
+
+
+@main.route("/chat/<int:chat_id>", methods=["GET", "POST"])
 @login_required
 def chat(chat_id):
+    form = NewMessageForm()
     chat = Chat.query.filter_by(id=chat_id).first()
     messages = chat.messages
-    return render_template("chat.html", messages=messages)
+    return render_template("chat.html", messages=messages, form=form)
+
+
+@main.route("/listen")
+@login_required
+def listen():
+    def stream():
+        while True:
+            len_chats = len(Message.query.filter_by(seen=False, receiver_id=current_user.id) \
+                            .order_by(Message.time).all())
+            chats = {"len_chats": len_chats}
+            if chats:
+                yield f"data: {json.dumps(chats)}\n\n"
+            time.sleep(1)
+    return Response(stream_with_context(stream()), mimetype="text/event-stream")
 
 
 @main.route("/profile")
