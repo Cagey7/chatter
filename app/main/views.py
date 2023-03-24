@@ -1,4 +1,5 @@
-from flask import render_template, redirect, url_for, json, Response, stream_with_context
+from flask import render_template, redirect, url_for, Response, stream_with_context, request
+import json
 from flask_login import login_required, current_user
 from . import main
 from .forms import *
@@ -91,10 +92,36 @@ def between_chat():
 @main.route("/chat/<int:chat_id>", methods=["GET", "POST"])
 @login_required
 def chat(chat_id):
-    form = NewMessageForm()
+    form = MessageForm()
     chat = Chat.query.filter_by(id=chat_id).first()
     messages = chat.messages
+    if current_user.id == chat.user_one_id:
+        form.receiver_id.data = chat.user_two_id
+    else:
+        form.receiver_id.data = chat.user_one_id
+    print(f"receiver_id {form.receiver_id}")
+    print(current_user.id)
+    form.chat_id.data = chat_id
     return render_template("chat.html", messages=messages, form=form)
+
+
+@main.route("/send_message", methods=["POST"])
+@login_required
+def send_message():
+    form = MessageForm()
+    if form.validate_on_submit():
+        message = Message(time=datetime.now().strftime('%Y-%m-%d %H:%M:%S'),
+                            text=form.msg_text.data,
+                            sender_id=current_user.id,
+                            receiver_id=form.receiver_id.data,
+                            chat_id=form.chat_id.data,
+                            seen=False)
+        db.session.add(message)
+        db.session.commit()
+        print(f"chat_id: {form.chat_id.data}")
+        print(f"message: {form.msg_text.data}")
+        print(f"receiver id: {form.receiver_id.data}")
+    return redirect(url_for("main.index"))
 
 
 @main.route("/listen")
@@ -105,6 +132,7 @@ def listen():
             len_chats = len(Message.query.filter_by(seen=False, receiver_id=current_user.id) \
                             .order_by(Message.time).all())
             chats = {"len_chats": len_chats}
+            print(chats)
             if chats:
                 yield f"data: {json.dumps(chats)}\n\n"
             time.sleep(1)

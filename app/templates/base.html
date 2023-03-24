@@ -8,20 +8,25 @@
         <link rel="icon" href="/static/favicon.ico">
         <script>
             const eventSource = new EventSource("/listen");
-            eventSource.onmessage = (event) => {
-                const data = JSON.parse(event.data);
-                let amount_of_chats = data.len_chats;
+                document.addEventListener("DOMContentLoaded", () => {
+                    eventSource.onmessage = (event) => {
+                    const data = JSON.parse(event.data);
+                    let amount_of_chats = data.len_chats;
 
-                const notify_form = document.querySelector("#notify_form");
-                const notify_btn = document.querySelector("#notify_btn");
-                const notify_li = document.querySelector("#notify_li");
-                if (amount_of_chats > 0) {
-                    notify_li.removeAttribute("style");
-                    notify_btn.setAttribute("style", "background-color: red; width: 30px; height: 30px; border-radius: 5px; font-size: 16px;");
-                    notify_form.setAttribute("action", "{{ url_for('main.between_chat')}}");
-                    notify_btn.innerHTML = amount_of_chats;
+                    const notify_form = document.querySelector("#notify_form");
+                    const notify_btn = document.querySelector("#notify_btn");
+                    const notify_li = document.querySelector("#notify_li");
+                    if (amount_of_chats > 0) {
+                        notify_li.removeAttribute("style");
+                        notify_btn.setAttribute("style", "background-color: red; width: 30px; height: 30px; border-radius: 5px; font-size: 16px;");
+                        notify_form.setAttribute("action", "{{ url_for('main.between_chat')}}");
+                        notify_btn.innerHTML = amount_of_chats;
+                    }
                 }
-            }
+            });
+            window.addEventListener('beforeunload', () => {
+                eventSource.close();
+            });
         </script>
         {% block title %}
         <title>Chatter</title>

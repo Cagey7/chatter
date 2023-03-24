@@ -11,7 +11,7 @@
         <h1>Новый чат</h1>
     {% endif %}
     {% if messages %}
-        <form action="\" method="post" class="custom-form">
+        <form action="\send_message" method="post" class="custom-form">
             {{ form.hidden_tag() }}
             {{ form.msg_text.label(for="message-input")}}
             {{ form.msg_text(id="message-input")}}
@@ -19,5 +19,8 @@
             {{ form.submit(type="submit", value="Отправить")}}
         </form>
         <h1>{{ messages }}</h1>
+        {% for message in messages %}
+            <h2>{{ message.text }}</h2>
+        {% endfor %}
     {% endif %}
 {% endblock %}
