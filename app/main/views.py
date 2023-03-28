@@ -11,11 +11,9 @@ import time
 def index():
     form = NewMessageForm()
     try:
-        my_unanswered_msg = Message.query \
-                                    .filter_by(id=WaitingMessage.message_id) \
-                                    .filter_by(sender_id=current_user.id) \
-                                    .all() \
-                                    .__len__()
+        # check if user have to much unanswered messages
+        my_unanswered_msg = Message.query.filter_by(id=WaitingMessage.message_id) \
+                                    .filter_by(sender_id=current_user.id).all().__len__()
         if my_unanswered_msg >= 6:
             msg = "Ваши сообщения уже ожидают ответа от новых пользователей"
             return render_template("index.html", msg=msg)
@@ -52,15 +50,12 @@ def index():
             ignore_users.append(current_user.id)
 
             # generate new message for user and create chat
-            received_message = Message.query \
-                                .filter_by(id=WaitingMessage.message_id) \
+            received_message = Message.query.filter_by(id=WaitingMessage.message_id) \
                                 .filter(Message.sender_id.notin_(ignore_users)) \
-                                .order_by(Message.time) \
-                                .first()
+                                .order_by(Message.time).first()
             sender_id = received_message.sender_id
             receiver_id = current_user.id
-            chat = Chat(user_one_id=sender_id,
-                        user_two_id=receiver_id)
+            chat = Chat(user_one_id=sender_id, user_two_id=receiver_id)
             db.session.add(chat)
             db.session.commit()
 
@@ -72,8 +67,7 @@ def index():
 
             # delete waiting message
             del_waiting_message = WaitingMessage.query \
-                                    .filter_by(message_id=received_message.id) \
-                                    .first()
+                                    .filter_by(message_id=received_message.id).first()
             db.session.delete(del_waiting_message)
             db.session.commit()
         except:
@@ -97,17 +91,24 @@ def chat(chat_id):
     form = MessageForm()
     chat = Chat.query.filter_by(id=chat_id).first()
     try:
+        # allow only two users to enter chat
         if not (chat.user_one_id == current_user.id 
                 or chat.user_two_id == current_user.id):
             abort(404)
     except:
         abort(404)
+    
+    # get all messages
     messages = chat.messages
+
+    # change status of unseen messages
     unseen_messages = Message.query.filter_by(chat_id=chat_id, seen=False, \
                                               receiver_id=current_user.id).all()
     for unseen_message in unseen_messages:
         unseen_message.seen = True
     db.session.commit()
+
+    # get id of user who received message
     if current_user.id == chat.user_one_id:
         form.receiver_id.data = chat.user_two_id
     else:
@@ -121,13 +122,14 @@ def chat(chat_id):
 def send_message():
     form = MessageForm()
     if form.validate_on_submit():
+        # add new message to database
         message = Message(time=datetime.now().strftime('%Y-%m-%d %H:%M:%S'),
-                            text=form.msg_text.data,
-                            sender_id=current_user.id,
+                            text=form.msg_text.data, sender_id=current_user.id,
                             receiver_id=form.receiver_id.data,
-                            chat_id=form.chat_id.data,
-                            seen=False)
+                            chat_id=form.chat_id.data, seen=False)
         db.session.add(message)
+
+        # change status of unseen messages
         user = User.query.filter_by(id=current_user.id).first()
         user.last_seen = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
         db.session.commit()
@@ -139,6 +141,7 @@ def send_message():
 def listen():
     def stream():
         while True:
+            # check for new messages
             len_chats = len(Message.query.filter_by(seen=False, receiver_id=current_user.id) \
                             .order_by(Message.time).all())
             chats = {"len_chats": len_chats}
