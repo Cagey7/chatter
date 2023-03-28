@@ -1,13 +1,14 @@
 from werkzeug.security import generate_password_hash, check_password_hash
 from app import db, login_manager
 from flask_login import UserMixin
+from datetime import datetime
 
 
 class Message(db.Model):
     """Sqlalchemy message class"""
     __tablename__ = "messages"
     id = db.Column(db.Integer, primary_key=True)
-    time = db.Column(db.DateTime())
+    time = db.Column(db.DateTime(), default=datetime(2023, 1, 1, 0, 0, 0))
     text = db.Column(db.Text())
     sender_id = db.Column(db.Integer)
     receiver_id = db.Column(db.Integer)
@@ -30,7 +31,7 @@ class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String(64), unique=True, nullable=False)
     password_hash = db.Column(db.String(128), nullable=False)
-    online = db.Column(db.Boolean, default=False)
+    last_seen = db.Column(db.DateTime(), default=datetime(2023, 1, 1, 0, 0, 0))
 
 
     @property
@@ -46,14 +47,6 @@ class User(db.Model, UserMixin):
     def verify_password(self, password):
         """Compare inputted password with password in database"""
         return check_password_hash(self.password_hash, password)
-
-
-class WaitingUser(db.Model):
-    """Sqlalchemy waiting user class"""
-    __tablename__ = "waiting_users"
-    id = db.Column(db.Integer, primary_key=True)
-    user_id = db.Column(db.Integer)
-
 
 
 class WaitingMessage(db.Model):

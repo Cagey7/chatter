@@ -30,6 +30,11 @@ def index():
         db.session.add(message)
         db.session.commit()
 
+        # update last seen of current user
+        user = User.query.filter_by(id=current_user.id).first()
+        user.last_seen = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+        db.session.commit()
+
         # added same message in waiting_messages table
         waitingMessage = WaitingMessage(message_id=message.id)
         db.session.add(waitingMessage)
@@ -83,9 +88,6 @@ def index():
 def between_chat():
     chat_id = Message.query.filter_by(seen=False, receiver_id=current_user.id). \
                                         order_by(Message.time).first().chat_id
-    message = Message.query.filter_by(seen=False, chat_id=chat_id).first()
-    message.seen = True
-    db.session.commit()
     return redirect(url_for("main.chat", chat_id=chat_id))
 
 
@@ -101,6 +103,11 @@ def chat(chat_id):
     except:
         abort(404)
     messages = chat.messages
+    unseen_messages = Message.query.filter_by(chat_id=chat_id, seen=False, \
+                                              receiver_id=current_user.id).all()
+    for unseen_message in unseen_messages:
+        unseen_message.seen = True
+    db.session.commit()
     if current_user.id == chat.user_one_id:
         form.receiver_id.data = chat.user_two_id
     else:
@@ -121,6 +128,8 @@ def send_message():
                             chat_id=form.chat_id.data,
                             seen=False)
         db.session.add(message)
+        user = User.query.filter_by(id=current_user.id).first()
+        user.last_seen = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
         db.session.commit()
     return redirect(url_for("main.index"))
 
