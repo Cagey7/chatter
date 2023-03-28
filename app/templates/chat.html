@@ -7,20 +7,36 @@
 {% block content %}
     {% if no_users %}
         <h1>{{ no_users }}</h1>
-    {% else %}
-        <h1>Новый чат</h1>
     {% endif %}
+
     {% if messages %}
-        <form action="\send_message" method="post" class="custom-form">
-            {{ form.hidden_tag() }}
-            {{ form.msg_text.label(for="message-input")}}
-            {{ form.msg_text(id="message-input")}}
-            <br>
-            {{ form.submit(type="submit", value="Отправить")}}
-        </form>
-        <h1>{{ messages }}</h1>
         {% for message in messages %}
-            <h2>{{ message.text }}</h2>
+            {% if message.sender_id == current_user.id %}
+            <div class="container">
+                <div class="card bg-lightorange rounded-3 m-3 ml-auto text-end">
+                    <div class="card-body">
+                        <p class="card-text">{{ message.text }}</p>
+                    </div>
+                </div>
+            </div>  
+            {% else %}
+            <div class="container">
+                <div class="card bg-lightorange rounded-3 m-3">
+                    <div class="card-body">
+                        <p class="card-text">{{ message.text }}</p>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
         {% endfor %}
+        {% if not messages[-1].sender_id == current_user.id %}
+            <form action="\send_message" method="post" class="custom-form">
+                {{ form.hidden_tag() }}
+                {{ form.msg_text.label(for="message-input")}}
+                {{ form.msg_text(id="message-input")}}
+                <br>
+                {{ form.submit(type="submit", value="Отправить")}}
+            </form> 
+        {% endif %}
     {% endif %}
 {% endblock %}

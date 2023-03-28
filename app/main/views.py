@@ -1,4 +1,4 @@
-from flask import render_template, redirect, url_for, Response, stream_with_context, request
+from flask import render_template, redirect, url_for, Response, stream_with_context, abort, request
 import json
 from flask_login import login_required, current_user
 from . import main
@@ -94,13 +94,17 @@ def between_chat():
 def chat(chat_id):
     form = MessageForm()
     chat = Chat.query.filter_by(id=chat_id).first()
+    try:
+        if not (chat.user_one_id == current_user.id 
+                or chat.user_two_id == current_user.id):
+            abort(404)
+    except:
+        abort(404)
     messages = chat.messages
     if current_user.id == chat.user_one_id:
         form.receiver_id.data = chat.user_two_id
     else:
         form.receiver_id.data = chat.user_one_id
-    print(f"receiver_id {form.receiver_id}")
-    print(current_user.id)
     form.chat_id.data = chat_id
     return render_template("chat.html", messages=messages, form=form)
 
@@ -118,9 +122,6 @@ def send_message():
                             seen=False)
         db.session.add(message)
         db.session.commit()
-        print(f"chat_id: {form.chat_id.data}")
-        print(f"message: {form.msg_text.data}")
-        print(f"receiver id: {form.receiver_id.data}")
     return redirect(url_for("main.index"))
 
 
@@ -132,10 +133,9 @@ def listen():
             len_chats = len(Message.query.filter_by(seen=False, receiver_id=current_user.id) \
                             .order_by(Message.time).all())
             chats = {"len_chats": len_chats}
-            print(chats)
             if chats:
                 yield f"data: {json.dumps(chats)}\n\n"
-            time.sleep(1)
+            time.sleep(0.1)
     return Response(stream_with_context(stream()), mimetype="text/event-stream")
 
 
