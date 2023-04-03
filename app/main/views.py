@@ -3,8 +3,11 @@ import json
 from flask_login import login_required, current_user
 from . import main
 from .forms import *
-from datetime import datetime
+from datetime import datetime, timedelta
 import time
+import pytz
+
+almaty_tz = pytz.timezone("Asia/Almaty")
 
 
 @main.route("/", methods=["GET", "POST"])
@@ -22,7 +25,7 @@ def index():
     
     if form.validate_on_submit():
         # added new message to messages table
-        message = Message(time=datetime.now().strftime('%Y-%m-%d %H:%M:%S'),
+        message = Message(time=datetime.now(almaty_tz).strftime('%Y-%m-%d %H:%M:%S'),
                             text=form.msg_text.data,
                             sender_id=current_user.id)
         db.session.add(message)
@@ -30,7 +33,7 @@ def index():
 
         # update last seen of current user
         user = User.query.filter_by(id=current_user.id).first()
-        user.last_seen = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+        user.last_seen = datetime.now(almaty_tz).strftime('%Y-%m-%d %H:%M:%S')
         db.session.commit()
 
         # added same message in waiting_messages table
@@ -48,11 +51,30 @@ def index():
                             in Chat.query.filter_by(user_one_id=current_user.id).all()]
             ignore_users = list(set(user_one_ids).union(user_two_ids))
             ignore_users.append(current_user.id)
+            
+            minetes_list = [3, 30, 180, 4320, 44640]
 
             # generate new message for user and create chat
-            received_message = Message.query.filter_by(id=WaitingMessage.message_id) \
-                                .filter(Message.sender_id.notin_(ignore_users)) \
-                                .order_by(Message.time).first()
+            for minetes in minetes_list:
+                time_ago = datetime.now(almaty_tz) - timedelta(minutes=minetes)
+                received_message = Message.query \
+                    .filter_by(id=WaitingMessage.message_id) \
+                    .filter(Message.sender_id.notin_(ignore_users)) \
+                    .filter(Message.sender_id.in_(
+                        [user.id for user in User.query \
+                            .filter(User.last_seen >= time_ago) \
+                            .filter(User.id.notin_([current_user.id])) \
+                            .all()])) \
+                    .order_by(Message.time) \
+                    .first()                                                                                               
+                if received_message:
+                    break
+            
+            if not received_message:
+                received_message = Message.query.filter_by(id=WaitingMessage.message_id) \
+                    .filter(Message.sender_id.notin_(ignore_users)) \
+                    .order_by(Message.time).first()
+            
             sender_id = received_message.sender_id
             receiver_id = current_user.id
             chat = Chat(user_one_id=sender_id, user_two_id=receiver_id)
