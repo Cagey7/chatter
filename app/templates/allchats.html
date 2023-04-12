@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+
+{% block title %}
+    <title>Чат</title>
+{% endblock %}
+
+{% block content %}
+    {% for unanswered_chat in unanswered_chats %}
+        {% set chat_id = unanswered_chat.id %}
+        <a href="{{ url_for('main.chat', chat_id=chat_id ) }}">{{ unanswered_chat }}</a>
+    {% endfor %}
+{% endblock %}

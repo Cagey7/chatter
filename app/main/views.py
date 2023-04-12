@@ -139,6 +139,21 @@ def chat(chat_id):
     return render_template("chat.html", messages=messages, form=form)
 
 
+@main.route("/all_chats", methods=["GET", "POST"])
+@login_required
+def all_chats():
+    user_one_ids = Chat.query.filter_by(user_two_id=current_user.id).all()
+    user_two_ids =  Chat.query.filter_by(user_one_id=current_user.id).all()
+    chats = user_one_ids + user_two_ids
+    unanswered_chats = []
+    for chat in chats:
+        receiver_id = chat.messages[-1].receiver_id
+        if receiver_id == current_user.id:
+            unanswered_chats.append(chat)
+
+    return render_template("allchats.html", unanswered_chats=unanswered_chats)
+
+
 @main.route("/send_message", methods=["POST"])
 @login_required
 def send_message():
