@@ -102,8 +102,11 @@ def index():
 @main.route("/between_chat", methods=["GET", "POST"])
 @login_required
 def between_chat():
-    chat_id = Message.query.filter_by(seen=False, receiver_id=current_user.id). \
-                                        order_by(Message.time).first().chat_id
+    try:
+        chat_id = Message.query.filter_by(seen=False, receiver_id=current_user.id). \
+                                            order_by(Message.time).first().chat_id
+    except:
+         return redirect(url_for("main.index"))
     return redirect(url_for("main.chat", chat_id=chat_id))
 
 
@@ -139,7 +142,7 @@ def chat(chat_id):
     return render_template("chat.html", messages=messages, form=form)
 
 
-@main.route("/all_chats", methods=["GET", "POST"])
+@main.route("/chats", methods=["GET", "POST"])
 @login_required
 def all_chats():
     user_one_ids = Chat.query.filter_by(user_two_id=current_user.id).all()
@@ -159,6 +162,11 @@ def all_chats():
 def send_message():
     form = MessageForm()
     if form.validate_on_submit():
+        last_msg_user_id = Message.query.filter_by(chat_id=form.chat_id.data) \
+                            .order_by(Message.time.desc()).first().sender_id
+        if last_msg_user_id == current_user.id:
+            return redirect(url_for("main.index"))
+
         # add new message to database
         message = Message(time=datetime.now().strftime('%Y-%m-%d %H:%M:%S'),
                             text=form.msg_text.data, sender_id=current_user.id,

@@ -20,6 +20,15 @@ def create_app(config_name):
     db.init_app(app)
     login_manager.init_app(app)
 
+
+    @app.after_request
+    def add_header(response):
+        response.headers["Cache-Control"] = "no-cache, no-store, must-revalidate"
+        response.headers["Pragma"] = "no-cache"
+        response.headers["Expires"] = "0"
+        return response
+
+
     from .main import main as main_blueprint
     app.register_blueprint(main_blueprint)
 
