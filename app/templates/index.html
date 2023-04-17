@@ -8,13 +8,16 @@
     {% if msg %}
         <h1>{{ msg }}</h1>
     {% elif current_user.id %}
-        <form action="\" method="post" class="custom-form">
-            {{ form.hidden_tag() }}
-            {{ form.msg_text.label(for="message-input")}}
-            {{ form.msg_text(id="message-input")}}
-            <br>
-            {{ form.submit(type="submit", value="Отправить")}}
-        </form>
+        <div class="container" style="max-width: 600px;">
+            <form action="\" method="post" id="main-chat">
+                <div class="form-group">
+                    {{ form.hidden_tag() }}
+                    {{ form.msg_text.label(for="new-message")}}
+                    {{ form.msg_text(class="form-control", rows="6", id="new-message")}}
+                </div>
+                {{ form.submit(class="btn btn-primary",type="submit", value="Отправить")}}
+            </form>
+        </div>
     {% else %}
         <h1>Зарегистрируйтесь или войдите в аккаунт, чтобы пользоваться сайтом</h1>
     {% endif %}

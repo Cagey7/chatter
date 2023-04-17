@@ -162,11 +162,6 @@ def all_chats():
 def send_message():
     form = MessageForm()
     if form.validate_on_submit():
-        last_msg_user_id = Message.query.filter_by(chat_id=form.chat_id.data) \
-                            .order_by(Message.time.desc()).first().sender_id
-        if last_msg_user_id == current_user.id:
-            return redirect(url_for("main.index"))
-
         # add new message to database
         message = Message(time=datetime.now().strftime('%Y-%m-%d %H:%M:%S'),
                             text=form.msg_text.data, sender_id=current_user.id,

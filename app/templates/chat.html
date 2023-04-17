@@ -8,35 +8,35 @@
     {% if no_users %}
         <h1>{{ no_users }}</h1>
     {% endif %}
-
-    {% if messages %}
+    <div class="container">
+        
+    </div>
+    <div class="container vh-100 main-msg-block">
+        {% if messages %}
         {% for message in messages %}
             {% if message.sender_id == current_user.id %}
-            <div class="container">
-                <div class="card bg-lightorange rounded-3 m-3 ml-auto text-end">
-                    <div class="card-body">
-                        <p class="card-text">{{ message.text }}</p>
-                    </div>
+            <div class="container wrapper">
+                <div class="message-block right-user">
+                    <p>{{ message.text }}</p>
                 </div>
             </div>  
             {% else %}
             <div class="container">
-                <div class="card bg-lightorange rounded-3 m-3">
-                    <div class="card-body">
-                        <p class="card-text">{{ message.text }}</p>
-                    </div>
+                <div class="message-block left-user">
+                    <p>{{ message.text }}</p>
                 </div>
             </div>
             {% endif %}
         {% endfor %}
         {% if not messages[-1].sender_id == current_user.id %}
-            <form action="\send_message" method="post" class="custom-form">
-                {{ form.hidden_tag() }}
-                {{ form.msg_text.label(for="message-input")}}
-                {{ form.msg_text(id="message-input")}}
-                <br>
-                {{ form.submit(type="submit", value="Отправить")}}
-            </form> 
+            <form action="\send_message" method="post">
+                <div class="form-group" id="message-input-block">
+                    {{ form.hidden_tag() }}
+                    {{ form.msg_text(id="message-input", class="form-control", rows="6") }}
+                    {{ form.submit(type="submit", value="Отправить", class="btn btn-primary") }}
+                </div>
+            </form>
         {% endif %}
     {% endif %}
+    </div>
 {% endblock %}
