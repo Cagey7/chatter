@@ -31,6 +31,43 @@ def register():
     return render_template("auth/register.html", form=form)
 
 
+@auth.route("/change_password", methods=["POST"])
+@login_required
+def change_password():
+    form = ChangePasswordForm()
+    if form.validate_on_submit():
+        current_user.password = form.password.data
+        db.session.add(current_user)
+        db.session.commit()
+        flash("Ваш пароль изменён", "password_messages")
+    else:
+        for errors in form.errors.values():
+            flash(errors[0], "password_messages")
+    return redirect(url_for("auth.profile"))
+
+
+@auth.route("/change_email", methods=["POST"])
+@login_required
+def change_email():
+    form = ChangeEmailForm()
+    if form.validate_on_submit():
+        current_user.email = form.email.data
+        db.session.add(current_user)
+        db.session.commit()
+        flash("Ваша электронная почта изменена", "email_messages")
+    else:
+        for errors in form.errors.values():
+            flash(errors[0], "email_messages")
+    return redirect(url_for("auth.profile"))
+
+@auth.route("/profile", methods=["GET", "POST"])
+@login_required
+def profile():
+    form_psswd = ChangePasswordForm()
+    form_email = ChangeEmailForm()
+    return render_template("auth/profile.html", form_psswd=form_psswd, form_email=form_email)
+
+
 @auth.route("/logout")
 @login_required
 def logout():

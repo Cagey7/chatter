@@ -189,9 +189,3 @@ def listen():
                 yield f"data: {json.dumps(chats)}\n\n"
             time.sleep(0.1)
     return Response(stream_with_context(stream()), mimetype="text/event-stream")
-
-
-@main.route("/profile")
-@login_required
-def profile():
-    return render_template("profile.html")
