@@ -32,7 +32,8 @@ class LoginForm(FlaskForm):
 
 class ChangePasswordForm(FlaskForm):
     """Flask wtf change password class"""
-    password = PasswordField("Пароль", validators=[DataRequired("Введите пароль"), 
+    old_password = PasswordField("Старый пароль", validators=[DataRequired("Введите страый пароль")])
+    password = PasswordField("Новый пароль", validators=[DataRequired("Введите новый пароль"), 
                                                    EqualTo("confirm_password", message="Пароли не совпадают"),
                                                    Length(min=8, max=20, message="Пароль должен содержать от 8 до 20 символов")])
     confirm_password = PasswordField("Подтвердите пароль", validators=[DataRequired("Подтвердите пароль")])    

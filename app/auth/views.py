@@ -36,6 +36,10 @@ def register():
 def change_password():
     form = ChangePasswordForm()
     if form.validate_on_submit():
+        user = User.query.filter_by(email=current_user.email).first()
+        if not user.verify_password(form.old_password.data):
+            flash("Неправильный старый пароль", "password_messages")
+            return redirect(url_for("auth.profile"))
         current_user.password = form.password.data
         db.session.add(current_user)
         db.session.commit()
