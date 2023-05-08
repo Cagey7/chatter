@@ -5,36 +5,30 @@
 {% endblock %}
 
 {% block content %}
-    <div class="container">
-        <div class="row">
-            <div class="col-md-6 mx-auto">
-                <p>Ваша электронная почта: {{ current_user.email }}</p>
-                <form action="\change_password" method="post">
-                    {{ form_psswd.hidden_tag() }}
-                    <p>Поменять пароль:</p>
-                    <div class="form-group">{{ form_psswd.old_password(class="form-control", placeholder="Старый пароль", style="width: 250px;")}}</div>
-                    <div class="form-group">{{ form_psswd.password(class="form-control", placeholder="Новый пароль", style="width: 250px;")}}</div>
-                    <div class="form-group">{{ form_psswd.confirm_password(class="form-control", placeholder="Подтвердите пароль", style="width: 250px;")}}</div>
-                    {% for category, message in get_flashed_messages(with_categories=True) %}
-                        {% if category == "password_messages" %}
-                            <div class="error-message">{{ message }}</div>
-                        {% endif %}
-                    {% endfor %}
-                    {{ form_psswd.submit(type="submit", class="btn btn-primary")}}
-                </form>
-                <br><br>
-                <form action="\change_email" method="post">
-                    {{ form_email.hidden_tag() }}
-                    <p>Поменять электронную почту:</p>
-                    <div class="form-group">{{ form_email.email(class="form-control", placeholder="Новая электронная почта", style="width: 250px;")}}</div>
-                    {% for category, message in get_flashed_messages(with_categories=True) %}
-                        {% if category == "email_messages" %}
-                            <div class="error-message">{{ message }}</div>
-                        {% endif %}
-                    {% endfor %}
-                    {{ form_email.submit(type="submit", class="btn btn-primary")}}
-                </form>
-            </div>
-        </div>
-    </div>
+    <p>Ваша электронная почта: {{ current_user.email }}</p>
+    <form action="\change_password" method="post">
+        {{ form_psswd.hidden_tag() }}
+        <p>Поменять пароль:</p>
+        <div class="form-group">{{ form_psswd.old_password(class="form-control", placeholder="Старый пароль", style="width: 250px;")}}</div>
+        <div class="form-group">{{ form_psswd.password(class="form-control", placeholder="Новый пароль", style="width: 250px;")}}</div>
+        <div class="form-group">{{ form_psswd.confirm_password(class="form-control", placeholder="Подтвердите пароль", style="width: 250px;")}}</div>
+        {% for category, message in get_flashed_messages(with_categories=True) %}
+            {% if category == "password_messages" %}
+                <div class="error-message">{{ message }}</div>
+            {% endif %}
+        {% endfor %}
+        {{ form_psswd.submit(type="submit", class="btn btn-primary")}}
+    </form>
+    <br><br>
+    <form action="\change_email" method="post">
+        {{ form_email.hidden_tag() }}
+        <p>Поменять электронную почту:</p>
+        <div class="form-group">{{ form_email.email(class="form-control", placeholder="Новая электронная почта", style="width: 250px;")}}</div>
+        {% for category, message in get_flashed_messages(with_categories=True) %}
+            {% if category == "email_messages" %}
+                <div class="error-message">{{ message }}</div>
+            {% endif %}
+        {% endfor %}
+        {{ form_email.submit(type="submit", class="btn btn-primary")}}
+    </form>
 {% endblock %}

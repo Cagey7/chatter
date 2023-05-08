@@ -1,7 +1,7 @@
 body {
     font-family: Arial, sans-serif;
-    background-color: #F2F2F2;
-    padding-top: 70px;
+    background-color: #ebebeb;
+    padding-top: 60px;
 }
 .form-signin {
     max-width: 330px;
@@ -38,12 +38,12 @@ body {
     text-align: left;
 }
 
-
-/* new message block */
-.main-msg-block {
-    background-color: rgb(230, 230, 230);
-    max-width: 600px;
+.center_block {
+    background-color: white; 
+    padding-top: 20px;
 }
+
+/* messages styles */
 
 .wrapper {
     text-align: right;
@@ -73,7 +73,6 @@ body {
 
 #new-message {
     resize: none;
-    background-color: rgb(228, 228, 228);
 }
 
 #main-chat {
