@@ -5,8 +5,13 @@
 {% endblock %}
 
 {% block content %}
-    {% for unanswered_chat in unanswered_chats %}
-        {% set chat_id = unanswered_chat.id %}
-        <a href="{{ url_for('main.chat', chat_id=chat_id ) }}">{{ unanswered_chat }}</a>
+    <div style="text-align: center;">Ваши неотвеченные переписки</div>
+    {% for chat_id, message in unanswered_chats %}
+        {% set chat_id = chat_id %}
+        <a class="unanswered_chat_link" href="{{ url_for('main.chat', chat_id=chat_id ) }}" style="text-decoration: none; color:black">
+            <div class="unanswered_chat">
+                <div class="unanswered_message">{{ message }}</div>
+            </div>
+        </a>
     {% endfor %}
 {% endblock %}

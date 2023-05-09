@@ -1,4 +1,5 @@
 from flask import render_template, redirect, url_for, Response, stream_with_context, abort, request
+from sqlalchemy import desc
 import json
 from flask_login import login_required, current_user
 from . import main
@@ -152,7 +153,10 @@ def all_chats():
     for chat in chats:
         receiver_id = chat.messages[-1].receiver_id
         if receiver_id == current_user.id:
-            unanswered_chats.append(chat)
+            message = Message.query.filter_by(chat_id=chat.id).order_by(desc(Message.time)).first().text
+            if len(message) > 30:
+                message = message[:30]+"..."
+            unanswered_chats.append((chat.id, message))
 
     return render_template("allchats.html", unanswered_chats=unanswered_chats)
 

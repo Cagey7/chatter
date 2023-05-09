@@ -89,3 +89,16 @@ body {
     width: 350px;
     margin: auto;
 }
+
+/* unanswered messages */
+
+.unanswered_chat {
+    background-color: rgb(196, 222, 231);
+    margin: 15px auto;
+    height: 50px;
+    width: 450px;
+}
+
+.unanswered_message {
+    padding: 13px 0 0 10px;
+}
