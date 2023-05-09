@@ -17,7 +17,22 @@
             {{ form.submit(class="btn btn-primary",type="submit", value="Отправить")}}
         </form>
     {% else %}
-        <h1>Зарегистрируйтесь или войдите в аккаунт, чтобы пользоваться сайтом</h1>
+        <div class="index-message">
+            Приветсвую вас на моем сайте. Здесь вы сможете анонимно общаться самыми разнообразными людьми.
+            Чтобы опробовать, вы можете зарегистрироваться или войти.
+        </div>
+        <div class="container">
+            <div style="margin: 15px 0">
+                <a href="{{ url_for('auth.login') }}" style="text-decoration: none;">
+                    <button type="button" class="btn btn-primary" style="display: block; margin: auto;">Войти</button>
+                </a>
+            </div>
+            <div style="margin: 15px 0">
+                <a href="{{ url_for('auth.register') }}" style="text-decoration: none;">
+                    <button type="button" class="btn btn-primary" style="display: block; margin: auto;">Зарегистрироваться</button>
+                </a>
+            </div>
+        </div>
     {% endif %}
     
 {% endblock %}
