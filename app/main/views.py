@@ -143,9 +143,9 @@ def chat(chat_id):
     return render_template("chat.html", messages=messages, form=form)
 
 
-@main.route("/chats", methods=["GET", "POST"])
+@main.route("/replies", methods=["GET", "POST"])
 @login_required
-def all_chats():
+def replies():
     user_one_ids = Chat.query.filter_by(user_two_id=current_user.id).all()
     user_two_ids =  Chat.query.filter_by(user_one_id=current_user.id).all()
     chats = user_one_ids + user_two_ids
@@ -158,7 +158,7 @@ def all_chats():
                 message = message[:30]+"..."
             unanswered_chats.append((chat.id, message))
 
-    return render_template("allchats.html", unanswered_chats=unanswered_chats)
+    return render_template("replies.html", unanswered_chats=unanswered_chats)
 
 
 @main.route("/send_message", methods=["POST"])
@@ -177,7 +177,7 @@ def send_message():
         user = User.query.filter_by(id=current_user.id).first()
         user.last_seen = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
         db.session.commit()
-    return redirect(url_for("main.index"))
+    return redirect(url_for("main.chat", chat_id=form.chat_id.data))
 
 
 @main.route("/listen")

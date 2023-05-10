@@ -32,6 +32,14 @@
                     {{ form.submit(type="submit", value="Отправить", class="btn btn-primary") }}
                 </div>
             </form>
+        {% else %}
+        <div class="container">
+            <div style="margin-top: 30px">
+                <a href="{{ url_for('main.index') }}" style="text-decoration: none;">
+                    <button type="button" class="btn btn-primary" style="display: block; margin: auto;">Отправить новое сообщение</button>
+                </a>
+            </div>
+        </div>
         {% endif %}
     {% endif %}
 {% endblock %}
