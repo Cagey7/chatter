@@ -12,7 +12,7 @@
         {{ form.email(class="form-control", placeholder="Электронная почта")}}
         {{ form.password.label(class="sr-only")}}
         {{ form.password(class="form-control", placeholder="Пароль")}}
-        {{ form.remember_me() }} Запомнить меня
+        {{ form.remember_me() }} Не запоминать меня
         {% for field in [form.email, form.password] %}
             <div class="error-message">{% if field.errors %}{{ field.errors[0] }}{% endif %}</div>
         {% endfor %}
