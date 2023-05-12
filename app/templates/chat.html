@@ -32,6 +32,25 @@
                     {{ form.submit(type="submit", value="Отправить", class="btn btn-primary") }}
                 </div>
             </form>
+            {% set chat_id = messages[0].chat_id %}
+            <a href="#" id="delete-chat" data-toggle="modal" data-target="#exampleModal">удалить чат</a>
+
+            <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Вы уверены, что хотите удалить чат?</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Нет</button>
+                        <a href="{{ url_for('main.delete_chat', chat_id=chat_id) }}" class="btn btn-primary">Да</a>
+                    </div>
+                    </div>
+                </div>
+            </div>
         {% else %}
         <div class="container">
             <div style="margin-top: 30px">

@@ -102,3 +102,11 @@ body {
 .unanswered_message {
     padding: 13px 0 0 10px;
 }
+
+
+#delete-chat {
+    float: right;
+    text-decoration: none;
+    color: black;
+    font-size: 14px;
+}

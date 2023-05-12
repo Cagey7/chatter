@@ -1,4 +1,4 @@
-from flask import render_template, redirect, url_for, Response, stream_with_context, abort, request
+from flask import render_template, redirect, url_for, Response, stream_with_context, abort, flash
 from sqlalchemy import desc
 import json
 from flask_login import login_required, current_user
@@ -193,3 +193,15 @@ def listen():
                 yield f"data: {json.dumps(chats)}\n\n"
             time.sleep(0.1)
     return Response(stream_with_context(stream()), mimetype="text/event-stream")
+
+
+@main.route("/delete_chat/<int:chat_id>")
+@login_required
+def delete_chat(chat_id):
+    chat = Chat.query.filter_by(id=chat_id).first()
+    messages = Message.query.filter_by(chat_id=chat_id).all()
+    db.session.delete(chat)
+    for message in messages:
+        db.session.delete(message)
+    db.session.commit()
+    return redirect(url_for("main.index"))
