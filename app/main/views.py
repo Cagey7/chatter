@@ -125,7 +125,7 @@ def chat(chat_id):
         abort(404)
     
     # get all messages
-    messages = chat.messages
+    messages = Message.query.filter_by(chat_id=chat_id).order_by(Message.time).all()
 
     # change status of unseen messages
     unseen_messages = Message.query.filter_by(chat_id=chat_id, seen=False, \
@@ -151,9 +151,12 @@ def replies():
     chats = user_one_ids + user_two_ids
     unanswered_chats = []
     for chat in chats:
-        receiver_id = chat.messages[-1].receiver_id
+        last_message = Message.query.filter_by(chat_id=chat.id). \
+                                order_by(desc(Message.time)).all()[0]
+        receiver_id = last_message.receiver_id
         if receiver_id == current_user.id:
-            message = Message.query.filter_by(chat_id=chat.id).order_by(desc(Message.time)).first().text
+            message = Message.query.filter_by(chat_id=chat.id). \
+                                order_by(desc(Message.time)).first().text
             if len(message) > 30:
                 message = message[:30]+"..."
             unanswered_chats.append((chat.id, message))
