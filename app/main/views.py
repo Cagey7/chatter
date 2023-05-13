@@ -174,7 +174,7 @@ def send_message():
                                 order_by(desc(Message.time)).first()
         if last_message.sender_id != current_user.id:
             # add new message to database
-            message = Message(time=datetime.now().strftime('%Y-%m-%d %H:%M:%S'),
+            message = Message(time=datetime.now(almaty_tz).strftime('%Y-%m-%d %H:%M:%S'),
                                 text=form.msg_text.data, sender_id=current_user.id,
                                 receiver_id=form.receiver_id.data,
                                 chat_id=form.chat_id.data, seen=False)
@@ -182,7 +182,7 @@ def send_message():
 
             # change status of unseen messages
             user = User.query.filter_by(id=current_user.id).first()
-            user.last_seen = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+            user.last_seen = datetime.now(almaty_tz).strftime('%Y-%m-%d %H:%M:%S')
             db.session.commit()
         else:
             return redirect(url_for("main.chat", chat_id=form.chat_id.data))
