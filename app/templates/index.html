@@ -9,12 +9,15 @@
         <h1>{{ msg }}</h1>
     {% elif current_user.id %}
         <form action="\" method="post" id="main-chat">
-            <div class="form-group">
-                {{ form.hidden_tag() }}
-                {{ form.msg_text.label(for="new-message")}}
-                {{ form.msg_text(class="form-control", rows="6", id="new-message")}}
+            <div class="container">
+                <div class="form-group">
+                    {{ form.hidden_tag() }}
+                    {{ form.msg_text.label(for="new-message")}}
+                    {{ form.msg_text(class="form-control", rows="5", id="new-message")}}
+                    <br>
+                    {{ form.submit(class="btn btn-primary",type="submit", value="Отправить")}}
+                </div>
             </div>
-            {{ form.submit(class="btn btn-primary",type="submit", value="Отправить")}}
         </form>
         {{ deleted_msg }}
     {% else %}
