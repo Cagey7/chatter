@@ -14,7 +14,7 @@ almaty_tz = pytz.timezone("Asia/Almaty")
 @main.route("/", methods=["GET", "POST"])
 def index():
     form = NewMessageForm()
-    try:
+    try: 
         # check if user have to much unanswered messages
         my_unanswered_msg = Message.query.filter_by(id=WaitingMessage.message_id) \
                                     .filter_by(sender_id=current_user.id).all().__len__()
