@@ -7,6 +7,9 @@
 {% block content %}
     {% if no_users %}
         <h1>{{ no_users }}</h1>
+        <a href="{{ url_for('main.replies') }}" style="text-decoration: none;">
+            <button type="button" class="btn btn-primary" style="display: block; margin: auto;">К чатам</button>
+        </a>
     {% endif %}
         {% if messages %}
         {% for message in messages %}

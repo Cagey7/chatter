@@ -7,6 +7,9 @@
 {% block content %}
     {% if msg %}
         <h1>{{ msg }}</h1>
+        <a href="{{ url_for('main.replies') }}" style="text-decoration: none;">
+            <button type="button" class="btn btn-primary" style="display: block; margin: auto;">К чатам</button>
+        </a>
     {% elif current_user.id %}
         <form action="\" method="post" id="main-chat">
             <div class="container">
