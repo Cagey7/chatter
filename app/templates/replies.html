@@ -5,15 +5,21 @@
 {% endblock %}
 
 {% block content %}
-    <div class="container">
-        <div style="text-align: center;">Ваши неотвеченные переписки</div>
-        {% for chat_id, message in unanswered_chats %}
-            {% set chat_id = chat_id %}
-            <a class="unanswered_chat_link" href="{{ url_for('main.chat', chat_id=chat_id ) }}" style="text-decoration: none; color:black">
-                <div class="unanswered_chat">
-                    <div class="unanswered_message">{{ message }}</div>
-                </div>
-            </a>
-        {% endfor %}
+<div class="container">
+    <div class="row" style="min-height: 100vh;">
+        <div class="mx-auto center_block" style="width: 560px; background: url(/static/images/chatbg.jpeg);">
+            <div class="container">
+                <div style="text-align: center;">Ваши неотвеченные переписки</div>
+                {% for chat_id, message in unanswered_chats %}
+                    {% set chat_id = chat_id %}
+                    <a class="unanswered_chat_link" href="{{ url_for('main.chat', chat_id=chat_id ) }}" style="text-decoration: none; color:black">
+                        <div class="unanswered_chat">
+                            <div class="unanswered_message">{{ message }}</div>
+                        </div>
+                    </a>
+                {% endfor %}
+            </div>
+        </div>
     </div>
+</div>
 {% endblock %}

@@ -5,63 +5,69 @@
 {% endblock %}
 
 {% block content %}
-    {% if no_users %}
-        <h1>{{ no_users }}</h1>
-        <a href="{{ url_for('main.replies') }}" style="text-decoration: none;">
-            <button type="button" class="btn btn-primary" style="display: block; margin: auto;">К чатам</button>
-        </a>
-    {% endif %}
-        {% if messages %}
-        {% for message in messages %}
-            {% if message.sender_id == current_user.id %}
-            <div class="container wrapper">
-                <div class="message-block right-user">
-                    <p>{{ message.text }}</p>
-                </div>
-            </div>  
-            {% else %}
-            <div class="container">
-                <div class="message-block left-user">
-                    <p>{{ message.text }}</p>
-                </div>
-            </div>
-            {% endif %}
-        {% endfor %}
-        {% if not messages[-1].sender_id == current_user.id %}
-            <form action="\send_message" method="post">
-                <div class="form-group" id="message-input-block">
-                    {{ form.hidden_tag() }}
-                    {{ form.msg_text(id="message-input", class="form-control", rows="6") }}
-                    {{ form.submit(type="submit", value="Отправить", class="btn btn-primary") }}
-                </div>
-            </form>
-            {% set chat_id = messages[0].chat_id %}
-            <a href="#" id="delete-chat" data-toggle="modal" data-target="#exampleModal">удалить чат</a>
-
-            <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                <div class="modal-dialog" role="document">
-                    <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Вы уверены, что хотите удалить чат?</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Нет</button>
-                        <a href="{{ url_for('main.delete_chat', chat_id=chat_id) }}" class="btn btn-primary">Да</a>
-                    </div>
-                    </div>
-                </div>
-            </div>
-        {% else %}
-        <div class="container">
-            <div style="margin-top: 30px">
-                <a href="{{ url_for('main.index') }}" style="text-decoration: none;">
-                    <button type="button" class="btn btn-primary" style="display: block; margin: auto;">Отправить новое сообщение</button>
+<div class="container">
+    <div class="row" style="min-height: 100vh;">
+        <div class="mx-auto center_block" style="width: 560px; background: url(/static/images/chatbg.jpeg); background-repeat: repeat;">
+            {% if no_users %}
+                <h1>{{ no_users }}</h1>
+                <a href="{{ url_for('main.replies') }}" style="text-decoration: none;">
+                    <button type="button" class="btn btn-info" style="display: block; margin: auto;">К чатам</button>
                 </a>
-            </div>
+            {% endif %}
+                {% if messages %}
+                {% for message in messages %}
+                    {% if message.sender_id == current_user.id %}
+                    <div class="container wrapper">
+                        <div class="message-block right-user">
+                            <p>{{ message.text }}</p>
+                        </div>
+                    </div>  
+                    {% else %}
+                    <div class="container">
+                        <div class="message-block left-user">
+                            <p>{{ message.text }}</p>
+                        </div>
+                    </div>
+                    {% endif %}
+                {% endfor %}
+                {% if not messages[-1].sender_id == current_user.id %}
+                    <form action="\send_message" method="post">
+                        <div class="form-group" id="message-input-block">
+                            {{ form.hidden_tag() }}
+                            {{ form.msg_text(id="message-input", class="form-control", rows="6") }}
+                            {{ form.submit(type="submit", value="Отправить", class="btn btn-info") }}
+                        </div>
+                    </form>
+                    {% set chat_id = messages[0].chat_id %}
+                    <a href="#" id="delete-chat" data-toggle="modal" data-target="#exampleModal">удалить чат</a>
+
+                    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">Вы уверены, что хотите удалить чат?</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Нет</button>
+                                <a href="{{ url_for('main.delete_chat', chat_id=chat_id) }}" class="btn btn-info">Да</a>
+                            </div>
+                            </div>
+                        </div>
+                    </div>
+                {% else %}
+                <div class="container">
+                    <div style="margin-top: 30px">
+                        <a href="{{ url_for('main.index') }}" style="text-decoration: none;">
+                            <button type="button" class="btn btn-info" style="display: block; margin: auto;">Отправить новое сообщение</button>
+                        </a>
+                    </div>
+                </div>
+                {% endif %}
+            {% endif %}
         </div>
-        {% endif %}
-    {% endif %}
+    </div>
+</div>
 {% endblock %}

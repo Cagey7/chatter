@@ -5,41 +5,46 @@
 {% endblock %}
 
 {% block content %}
-    {% if msg %}
-        <h1>{{ msg }}</h1>
-        <a href="{{ url_for('main.replies') }}" style="text-decoration: none;">
-            <button type="button" class="btn btn-primary" style="display: block; margin: auto;">К чатам</button>
-        </a>
-    {% elif current_user.id %}
-        <form action="\" method="post" id="main-chat">
-            <div class="container">
-                <div class="form-group">
-                    {{ form.hidden_tag() }}
-                    {{ form.msg_text.label(for="new-message")}}
-                    {{ form.msg_text(class="form-control", rows="5", id="new-message")}}
-                    <br>
-                    {{ form.submit(class="btn btn-primary",type="submit", value="Отправить")}}
+<div class="container">
+    <div class="row" style="min-height: 100vh;">
+        <div class="mx-auto center_block" style="width: 560px;">
+            {% if msg %}
+                <h1>{{ msg }}</h1>
+                <a href="{{ url_for('main.replies') }}" style="text-decoration: none;">
+                    <button type="button" class="btn btn-info" style="display: block; margin: auto;">К чатам</button>
+                </a>
+            {% elif current_user.id %}
+                <form action="\" method="post" id="main-chat">
+                    <div class="container">
+                        <div class="form-group">
+                            {{ form.hidden_tag() }}
+                            {{ form.msg_text.label(for="new-message")}}
+                            {{ form.msg_text(class="form-control", rows="5", id="new-message")}}
+                            <br>
+                            {{ form.submit(class="btn btn-info",type="submit", value="Отправить")}}
+                        </div>
+                    </div>
+                </form>
+            {% else %}
+                <div class="index-message">
+                    Приветсвую вас на моем сайте. Здесь вы сможете анонимно общаться самыми разнообразными людьми.
+                    Чтобы опробовать, вы можете зарегистрироваться или войти.
                 </div>
-            </div>
-        </form>
-        {{ deleted_msg }}
-    {% else %}
-        <div class="index-message">
-            Приветсвую вас на моем сайте. Здесь вы сможете анонимно общаться самыми разнообразными людьми.
-            Чтобы опробовать, вы можете зарегистрироваться или войти.
+                <div class="container">
+                    <div style="margin: 15px 0">
+                        <a href="{{ url_for('auth.login') }}" style="text-decoration: none;">
+                            <button type="button" class="btn btn-info" style="display: block; margin: auto;">Войти</button>
+                        </a>
+                    </div>
+                    <div style="margin: 15px 0">
+                        <a href="{{ url_for('auth.register') }}" style="text-decoration: none;">
+                            <button type="button" class="btn btn-info" style="display: block; margin: auto;">Зарегистрироваться</button>
+                        </a>
+                    </div>
+                </div>
+            {% endif %}
+            <img src="/static/images/birds.jpeg" style="width: 560px; position: absolute; bottom: 0; max-width: 100%;">
         </div>
-        <div class="container">
-            <div style="margin: 15px 0">
-                <a href="{{ url_for('auth.login') }}" style="text-decoration: none;">
-                    <button type="button" class="btn btn-primary" style="display: block; margin: auto;">Войти</button>
-                </a>
-            </div>
-            <div style="margin: 15px 0">
-                <a href="{{ url_for('auth.register') }}" style="text-decoration: none;">
-                    <button type="button" class="btn btn-primary" style="display: block; margin: auto;">Зарегистрироваться</button>
-                </a>
-            </div>
-        </div>
-    {% endif %}
-    <img src="/static/images/birds.jpeg" style="width: 560px; position: absolute; bottom: 0; max-width: 100%;">
+    </div>
+</div>
 {% endblock %}

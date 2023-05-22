@@ -5,20 +5,29 @@
 {% endblock %}
 
 {% block content %}
-    <form class="form-signin" method="post">
-        {{ form.hidden_tag() }}
-        <h1 class="h3 mb-3 font-weight-normal text-center">Вход</h1>
-        {{ form.email.label(class="sr-only")}}
-        {{ form.email(class="form-control", placeholder="Электронная почта")}}
-        {{ form.password.label(class="sr-only")}}
-        {{ form.password(class="form-control", placeholder="Пароль")}}
-        {{ form.remember_me() }} Не запоминать меня
-        {% for field in [form.email, form.password] %}
-            <div class="error-message">{% if field.errors %}{{ field.errors[0] }}{% endif %}</div>
-        {% endfor %}
-        {% for message in get_flashed_messages() %}
-            <div class="error-message">{{ message }}</div>
-        {% endfor %}
-        {{ form.submit(class="btn btn-lg btn-primary btn-block mt-4", type="submit")}}
-    </form>
+<div class="container">
+    <div class="row" style="min-height: 100vh;">
+        <div class="mx-auto center_block" style="width: 560px;">
+            <div class="container">
+                <form class="form-signin" method="post">
+                    {{ form.hidden_tag() }}
+                    <h1 class="h3 mb-3 font-weight-normal text-center">Вход</h1>
+                    {{ form.email.label(class="sr-only")}}
+                    {{ form.email(class="form-control", placeholder="Электронная почта", style="margin-bottom: 10px;")}}
+                    {{ form.password.label(class="sr-only")}}
+                    {{ form.password(class="form-control", placeholder="Пароль")}}
+                    {{ form.remember_me() }} Не запоминать меня
+                    {% for field in [form.email, form.password] %}
+                        <div class="error-message">{% if field.errors %}{{ field.errors[0] }}{% endif %}</div>
+                    {% endfor %}
+                    {% for message in get_flashed_messages() %}
+                        <div class="error-message">{{ message }}</div>
+                    {% endfor %}
+                    {{ form.submit(class="btn btn-lg btn-info btn-block mt-4", type="submit")}}
+                </form>
+            </div>
+            <img src="/static/images/birds.jpeg" style="width: 560px; position: absolute; bottom: 0; max-width: 100%;">
+        </div>
+    </div>
+</div>
 {% endblock %}
