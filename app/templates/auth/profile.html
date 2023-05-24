@@ -9,10 +9,12 @@
     <div class="row" style="min-height: 100vh;">
         <div class="mx-auto center_block" style="width: 560px;">
             <div class="container">
-                <p>Ваша электронная почта: {{ current_user.email }}</p>
-                <form action="\change_password" method="post">
+                <p style="text-align: center; font-size: 24px;">Личные данные</p>
+                <p>Электронная почта: {{ current_user.email }}</p>
+                <p style="text-align: center; font-size: 24px;">Настройки</p>
+                <p style="color: rgb(0, 107, 179);">Изменить пароль</p>
+                <form action="\change_password" method="post" style="margin-left: 25px;">
                     {{ form_psswd.hidden_tag() }}
-                    <p>Поменять пароль:</p>
                     <div class="form-group">{{ form_psswd.old_password(class="form-control", placeholder="Старый пароль", style="width: 250px;")}}</div>
                     <div class="form-group">{{ form_psswd.password(class="form-control", placeholder="Новый пароль", style="width: 250px;")}}</div>
                     <div class="form-group">{{ form_psswd.confirm_password(class="form-control", placeholder="Подтвердите пароль", style="width: 250px;")}}</div>
@@ -24,9 +26,9 @@
                     {{ form_psswd.submit(type="submit", class="btn btn-info")}}
                 </form>
                 <br><br>
-                <form action="\change_email" method="post">
+                <p style="color: rgb(0, 107, 179);">Изменить электронную почту</p>
+                <form action="\change_email" method="post" style="margin-left: 25px;">
                     {{ form_email.hidden_tag() }}
-                    <p>Поменять электронную почту:</p>
                     <div class="form-group">{{ form_email.email(class="form-control", placeholder="Новая электронная почта", style="width: 250px;")}}</div>
                     {% for category, message in get_flashed_messages(with_categories=True) %}
                         {% if category == "email_messages" %}
@@ -36,7 +38,7 @@
                     {{ form_email.submit(type="submit", class="btn btn-info")}}
                 </form>
             </div>
-            <img src="/static/images/birds.jpeg" style="width: 560px; position: absolute; bottom: 0; max-width: 100%;">
+            <img src="/static/images/birds.jpeg" style="width: 560px; margin-top: 50px;">
         </div>
     </div>
 </div>

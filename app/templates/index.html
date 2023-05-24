@@ -9,7 +9,7 @@
     <div class="row" style="min-height: 100vh;">
         <div class="mx-auto center_block" style="width: 560px;">
             {% if msg %}
-                <h1>{{ msg }}</h1>
+                <p class="text-myinfo" style="text-align: center; font-size: 20px">Ваши сообщения уже ожидают ответа от новых пользователей</p>
                 <a href="{{ url_for('main.replies') }}" style="text-decoration: none;">
                     <button type="button" class="btn btn-info" style="display: block; margin: auto;">К чатам</button>
                 </a>
@@ -26,10 +26,8 @@
                     </div>
                 </form>
             {% else %}
-                <div class="index-message">
-                    Приветсвую вас на моем сайте. Здесь вы сможете анонимно общаться самыми разнообразными людьми.
-                    Чтобы опробовать, вы можете зарегистрироваться или войти.
-                </div>
+                <p class="index-message text-myinfo" style="text-align: center; font-size: 20px">Приветсвую вас на моем сайте. Здесь вы сможете анонимно общаться самыми разнообразными людьми.
+                    Чтобы опробовать, вы можете зарегистрироваться или войти.</p>
                 <div class="container">
                     <div style="margin: 15px 0">
                         <a href="{{ url_for('auth.login') }}" style="text-decoration: none;">
