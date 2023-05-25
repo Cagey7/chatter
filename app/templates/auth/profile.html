@@ -5,9 +5,8 @@
 {% endblock %}
 
 {% block content %}
-<div class="container">
-    <div class="row" style="min-height: 100vh;">
-        <div class="mx-auto center_block" style="width: 560px;">
+    <div class="mx-auto center_block birds-background" style="width: 560px;">
+        <div style="margin-bottom: 200px;">
             <div class="container">
                 <p style="text-align: center; font-size: 24px;">Личные данные</p>
                 <p>Электронная почта: {{ current_user.email }}</p>
@@ -38,8 +37,6 @@
                     {{ form_email.submit(type="submit", class="btn btn-info")}}
                 </form>
             </div>
-            <img src="/static/images/birds.jpeg" style="width: 560px; margin-top: 50px;">
         </div>
     </div>
-</div>
 {% endblock %}

@@ -5,9 +5,8 @@
 {% endblock %}
 
 {% block content %}
-<div class="container">
-    <div class="row" style="min-height: 100vh;">
-        <div class="mx-auto center_block" style="width: 560px;">
+    <div class="mx-auto center_block birds-background">
+        <div style="margin-bottom: 200px;">
             {% if msg %}
                 <p class="text-myinfo" style="text-align: center; font-size: 20px">Ваши сообщения уже ожидают ответа от новых пользователей</p>
                 <a href="{{ url_for('main.replies') }}" style="text-decoration: none;">
@@ -41,8 +40,7 @@
                     </div>
                 </div>
             {% endif %}
-            <img src="/static/images/birds.jpeg" style="width: 560px; position: absolute; bottom: 0; max-width: 100%;">
         </div>
     </div>
-</div>
+
 {% endblock %}

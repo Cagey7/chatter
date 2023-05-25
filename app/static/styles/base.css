@@ -1,7 +1,6 @@
 body {
     font-family: Arial, sans-serif;
     background-color: #ebebeb;
-    padding-top: 60px;
 }
 .form-signin {
     max-width: 330px;
@@ -115,4 +114,20 @@ body {
 .text-myinfo {
     text-align: center; 
     font-size: 20px;
+}
+
+/* background images */
+
+.cats-background {
+    width: 560px; 
+    background: url(/static/images/chatbg.jpeg);
+}
+
+.birds-background {
+    background: url(/static/images/birds.jpeg);
+    background-color: white;  
+    background-position: bottom; 
+    width: 560px; 
+    background-size: 100%; 
+    background-repeat: no-repeat;
 }
