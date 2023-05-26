@@ -214,3 +214,8 @@ def delete_chat(chat_id):
         db.session.delete(message)
     db.session.commit()
     return redirect(url_for("main.index"))
+
+
+@main.route("/info")
+def info():
+    return render_template("info.html")
