@@ -82,7 +82,7 @@ def password_reset_request():
         user = User.query.filter_by(email=form.email.data.lower()).first()
         if user:
             token = user.generate_reset_token()
-            send_email(form.email.data, "Reset password", "mail/reset", token=token)
+            send_email(form.email.data, "Восстановление пароля", "mail/reset", token=token)
             return render_template("auth/resetmessage.html")
         else:
             flash("Неверная электронная почта")
