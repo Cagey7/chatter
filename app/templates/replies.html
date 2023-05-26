@@ -8,7 +8,7 @@
     <div class="mx-auto center_block cats-background">
         <div class="container">
             {% if unanswered_chats %}
-                <div class="text-myinfo" style="text-align: center; font-size: 20px;">Ваши неотвеченные переписки</div>
+                <div class="text-myinfo">Ваши неотвеченные переписки</div>
                 {% for chat_id, message in unanswered_chats %}
                     {% set chat_id = chat_id %}
                     <a class="unanswered_chat_link" href="{{ url_for('main.chat', chat_id=chat_id ) }}" style="text-decoration: none; color:black">

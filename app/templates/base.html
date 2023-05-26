@@ -43,7 +43,7 @@
                 </button>
                 <div class="collapse navbar-collapse" id="navbarNav">
                     <ul class="navbar-nav ml-auto">
-                        <li class="nav-item active">
+                        <li class="nav-item">
                             <a class="nav-link" href="{{ url_for('main.index') }}">Главная</a>
                         </li>
                         <li class="nav-item">
@@ -56,6 +56,9 @@
                             <form id="notify_form">
                                 <button id="notify_btn"></button>
                             </form>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ url_for('main.info') }}">О чаттере</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="{{ url_for('auth.logout') }}">Выйти</a>
@@ -73,7 +76,7 @@
                 </button>
                 <div class="collapse navbar-collapse" id="navbarNav">
                     <ul class="navbar-nav ml-auto">
-                        <li class="nav-item active">
+                        <li class="nav-item">
                             <a class="nav-link" href="{{ url_for('main.index') }}">Главная</a>
                         </li>
                         <li class="nav-item">

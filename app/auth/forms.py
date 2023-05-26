@@ -51,7 +51,7 @@ class ChangeEmailForm(FlaskForm):
     def validate_email(self, field):
         """Checks if email is already taken"""
         if User.query.filter_by(email=field.data.lower()).first():
-            raise ValidationError("Элетронная почта уже занята.")
+            raise ValidationError("Электронная почта уже занята")
 
 
 class ResetPasswordForm(FlaskForm):
