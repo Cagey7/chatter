@@ -14,8 +14,8 @@
                     {{ form.email.label(class="sr-only")}}
                     {{ form.email(class="form-control", placeholder="Электронная почта", style="margin-bottom: 10px;")}}
                     {{ form.password.label(class="sr-only")}}
-                    {{ form.password(class="form-control", placeholder="Пароль")}}
-                    {{ form.remember_me() }} Не запоминать меня
+                    {{ form.password(class="form-control", placeholder="Пароль", style="margin-bottom: 10px;")}}
+                    <a href="{{url_for('auth.password_reset_request')}}" id="forgot-password">Забыли пароль?</a>
                     {% for field in [form.email, form.password] %}
                         <div class="error-message">{% if field.errors %}{{ field.errors[0] }}{% endif %}</div>
                     {% endfor %}
@@ -23,7 +23,6 @@
                         <div class="error-message">{{ message }}</div>
                     {% endfor %}
                     {{ form.submit(class="btn btn-lg btn-info btn-block mt-4", type="submit")}}
-                    <a href="{{url_for('auth.password_reset_request')}}">Забыли пароль?</a>
                 </form>
             </div>
         </div>

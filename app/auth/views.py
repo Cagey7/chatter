@@ -83,9 +83,7 @@ def password_reset_request():
         if user:
             token = user.generate_reset_token()
             send_email(form.email.data, "Reset password", "mail/reset", token=token)
-            flash("Проверьте вашу электронную почту для того, чтобы сменить пароль. "
-                  "Если письмо не пришло, проверьте спам или попробуйте еще раз.")
-            return redirect(url_for("auth.login"))
+            return render_template("auth/resetmessage.html")
         else:
             flash("Неверная электронная почта")
             return redirect(url_for("auth.password_reset_request"))
@@ -109,5 +107,4 @@ def password_reset(token):
 @login_required
 def logout():
     logout_user()
-    flash("Вы вышли из аккаунта", "success")
-    return redirect(url_for("auth.login"))
+    return redirect(url_for("main.index"))

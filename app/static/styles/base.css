@@ -96,11 +96,14 @@ body {
 #delete-chat {
     float: right;
     text-decoration: none;
-    color: rgb(143, 14, 14);
-    font-size: 16px;
+    color: rgb(139, 7, 7);
+    font-size: 17px;
     margin-right: 15px;
 }
 
+#delete-chat:hover {
+    color: rgb(175, 122, 122);
+}
 
 .text-myinfo {
     text-align: center; 
@@ -121,4 +124,14 @@ body {
     width: 560px; 
     background-size: 100%; 
     background-repeat: no-repeat;
+}
+
+#forgot-password{
+    text-decoration: none;
+    color: rgb(5, 5, 46);
+    font-size: 18px;
+}
+
+#forgot-password:hover {
+    color: rgb(108, 108, 158);
 }

@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <div class="mx-auto center_block birds-background" style="width: 560px;">
+        <div style="margin-bottom: 200px;">
+            <p class="text-myinfo" style="text-align: center; font-size: 20px">
+                Письмо для восстановления пароля отправлено на вашу почту. 
+                Если письмо не пришло, проверьте спам или попробуйте отправить письмо еще раз.
+            </p>
+            <a href="{{ url_for('main.index') }}" style="text-decoration: none;">
+                <button type="button" class="btn btn-info" style="display: block; margin: auto;">На главную</button>
+            </a>
+        </div>
+    </div>
+{% endblock %}
