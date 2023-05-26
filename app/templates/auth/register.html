@@ -14,7 +14,7 @@
                     {{ form.email.label(class="sr-only")}}
                     {{ form.email(class="form-control", placeholder="Электронная почта", style="margin-bottom: 10px;")}}
                     {{ form.password.label(class="sr-only")}}
-                    {{ form.password(class="form-control", placeholder="Пароль")}}
+                    {{ form.password(class="form-control", placeholder="Пароль", style="margin-bottom: 10px;")}}
                     {{ form.confirm_password.label(class="sr-only")}}
                     {{ form.confirm_password(class="form-control", placeholder="Подтвердите пароль")}}
                     {% for field in [form.email, form.password, form.confirm_password] %}
