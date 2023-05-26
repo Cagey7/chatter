@@ -1,0 +1,2 @@
+<p>Ссылка для восстановления пароля пароля</p>
+<a href="{{ url_for('auth.password_reset', token=token, _external=True) }}">{{ url_for("auth.password_reset", token=token, _external=True) }}</a>

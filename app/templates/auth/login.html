@@ -23,6 +23,7 @@
                         <div class="error-message">{{ message }}</div>
                     {% endfor %}
                     {{ form.submit(class="btn btn-lg btn-info btn-block mt-4", type="submit")}}
+                    <a href="{{url_for('auth.password_reset_request')}}">Забыли пароль?</a>
                 </form>
             </div>
         </div>

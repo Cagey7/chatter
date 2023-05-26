@@ -40,6 +40,7 @@ body {
 .center_block {
     background-color: white; 
     padding-top: 20px;
+    width: 560px; 
 }
 
 /* messages styles */

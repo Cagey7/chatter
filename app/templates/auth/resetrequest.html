@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <div class="mx-auto center_block birds-background" style="width: 560px;">
+        <div style="margin-bottom: 200px;">
+            <div class="container">
+                <form action="{{url_for('auth.password_reset_request')}}" class="form-signin" method="post">
+                    {{ form.hidden_tag() }}
+                    <h1 class="h5 mb-2 font-weight-normal text-center">Введите вашу электронную почту для восстановления пароля</h1>
+                    <div class="form-floating mb-3">
+                        {{ form.email.label(class="sr-only")}}
+                        {{ form.email(class="form-control", placeholder="Электронная почта", style="margin-bottom: 10px;")}}
+                        {% for field in [form.email] %}
+                            <div class="error-message">{% if field.errors %}{{ field.errors[0] }}{% endif %}</div>
+                        {% endfor %}
+                    </div>
+                    {{ form.submit(class="btn btn-lg btn-info btn-block mt-4", type="submit")}}
+                    {% for message in get_flashed_messages() %}
+                        <div class="error-message">{{ message }}</div>
+                    {% endfor %}
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}

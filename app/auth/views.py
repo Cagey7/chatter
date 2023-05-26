@@ -2,6 +2,7 @@ from flask import render_template, redirect, request, url_for, flash
 from flask_login import login_user, logout_user, current_user, login_required
 from . import auth
 from .forms import *
+from ..email import send_email
 
 
 @auth.route("/login", methods=["GET", "POST"])
@@ -70,6 +71,38 @@ def profile():
     form_psswd = ChangePasswordForm()
     form_email = ChangeEmailForm()
     return render_template("auth/profile.html", form_psswd=form_psswd, form_email=form_email)
+
+
+@auth.route("/reset", methods=["GET", "POST"])
+def password_reset_request():
+    if not current_user.is_anonymous:
+        return redirect(url_for("main.index"))
+    form = PassrecoveryForm()
+    if form.validate_on_submit():
+        user = User.query.filter_by(email=form.email.data.lower()).first()
+        if user:
+            token = user.generate_reset_token()
+            send_email(form.email.data, "Reset password", "mail/reset", token=token)
+            flash("Проверьте вашу электронную почту для того, чтобы сменить пароль. "
+                  "Если письмо не пришло, проверьте спам или попробуйте еще раз.")
+            return redirect(url_for("auth.login"))
+        else:
+            flash("Неверная электронная почта")
+            return redirect(url_for("auth.password_reset_request"))
+    return render_template("auth/resetrequest.html", form=form)
+
+
+@auth.route("/reset/<token>", methods=["GET", "POST"])
+def password_reset(token):
+    form = ResetPasswordForm()
+    if form.validate_on_submit():
+        if User.reset_password(token, form.password.data):
+            flash("Ваш пароль был изменён")
+            return redirect(url_for("auth.login"))
+        else:
+            flash("Ваш токен устарел, попробуйте еще раз")
+            return redirect(url_for("auth.login"))
+    return render_template("auth/reset.html", form=form, token=token)
 
 
 @auth.route("/logout")
