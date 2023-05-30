@@ -35,7 +35,7 @@ class ChangePasswordForm(FlaskForm):
     old_password = PasswordField("Старый пароль", validators=[DataRequired("Введите страый пароль")])
     password = PasswordField("Новый пароль", validators=[DataRequired("Введите новый пароль"), 
                                                    EqualTo("confirm_password", message="Пароли не совпадают"),
-                                                   Length(min=8, max=20, message="Пароль должен содержать от 8 до 20 символов")])
+                                                   Length(min=8, max=30, message="Пароль должен содержать от 8 до 30 символов")])
     confirm_password = PasswordField("Подтвердите пароль", validators=[DataRequired("Подтвердите пароль")])    
     submit = SubmitField("Подтвердить")
 
@@ -56,7 +56,8 @@ class ChangeEmailForm(FlaskForm):
 
 class ResetPasswordForm(FlaskForm):
     """Flask wth reset password class"""
-    password = PasswordField("Пароль", validators=[DataRequired(), EqualTo("confirm_password", message="Пароли не совпадают")])
+    password = PasswordField("Пароль", validators=[DataRequired(), EqualTo("confirm_password", message="Пароли не совпадают"),
+                                                   Length(min=8, max=30, message="Пароль должен содержать от 8 до 30 символов")])
     confirm_password = PasswordField("Подтвердите пароль", validators=[DataRequired()])
     submit = SubmitField("Подтвердить")
 

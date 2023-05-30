@@ -8,8 +8,8 @@
     <div class="mx-auto center_block cats-background">
         {% if no_users %}
             <p class="text-myinfo">Пока для вас нет нового собеседника, но ваше сообщение отправлено</p>
-            <a href="{{ url_for('main.replies') }}" style="text-decoration: none;">
-                <button type="button" class="btn btn-info" style="display: block; margin: auto;">К чатам</button>
+            <a href="{{ url_for('main.index') }}" style="text-decoration: none;">
+                <button type="button" class="btn btn-info" style="display: block; margin: auto;">На главную</button>
             </a>
         {% endif %}
             {% if messages %}
