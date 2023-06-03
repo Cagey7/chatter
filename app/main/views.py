@@ -53,7 +53,7 @@ def index():
             ignore_users = list(set(user_one_ids).union(user_two_ids))
             ignore_users.append(current_user.id)
             
-            minetes_list = [3, 30, 180, 4320, 44640]
+            minetes_list = [0.5, 2, 5, 10, 30, 180, 4320, 44640]
 
             # generate new message for user and create chat
             for minetes in minetes_list:
